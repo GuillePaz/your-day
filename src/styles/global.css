@@ -1,0 +1,130 @@
+@import "tailwindcss";
+@plugin "@toolwind/corner-shape";
+
+@font-face {
+  font-family: 'KHData';
+  src: url('/fonts/kh/KHData.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'KHGummi';
+  src: url('/fonts/kh/KHGummi.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* La fuente Menu tiene variantes de peso y estilo, las declaramos bajo el mismo nombre */
+@font-face {
+  font-family: 'KHMenu';
+  src: url('/fonts/kh/KHMenu.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'KHMenu';
+  src: url('/fonts/kh/KHMenu Bold.otf') format('opentype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'KHMenu';
+  src: url('/fonts/kh/KHMenu Italic.otf') format('opentype');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'KHMenu';
+  src: url('/fonts/kh/KHMenu BoldItalic.otf') format('opentype');
+  font-weight: bold;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'KHScala';
+  src: url('/fonts/kh/KHScala.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'KHTitle';
+  src: url('/fonts/kh/KHTitle.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --font-kh-data: "KHData", sans-serif;
+  --font-kh-gummi: "KHGummi", sans-serif;
+  --font-kh-menu: "KHMenu", sans-serif;
+  --font-kh-scala: "KHScala", sans-serif;
+  --font-kh-title: "KHTitle", sans-serif;
+}
+
+body {
+    background: black;
+
+}
+
+#background-video {
+    width: 100%;
+    height: 100vh;
+    -o-object-fit: cover;
+    object-fit: cover;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: -100;
+}
+
+@keyframes animateLeftToRight {
+    0% {
+      transform: translateX(10px);
+    }
+
+    100%{
+        transform: translateX(-10px);
+    }
+}
+
+.glove-animate-loop {
+    animation: animateLeftToRight 1.5s  infinite alternate;
+}
+
+
+@keyframes animateInLoop {
+  0% {
+    /* Comienza un poco inclinada, hacia abajo y a la izquierda (-1.2em es aprox. -19px) */
+    transform: rotate(-20deg) translateX(-1.2em) translateY(1.2em) scale(0.85);
+  }
+  25% {
+    /* Gira en arco ascendente hacia el frente y se agranda como si se acercara */
+    transform: rotate(10deg) scale(1.15);
+  }
+  75% {
+    /* Da casi una vuelta completa en arco amplio hacia atrás y se encoge */
+    transform: rotate(220deg) scale(0.85);
+  }
+  100% {
+    /* Cierra la órbita regresando al punto inicial con el estiramiento final */
+    transform: rotate(250deg) translateX(-1.45em) translateY(1.45em) scale(1.15);
+  }
+}
+.light-animate-loop {
+    animation: animateInLoop 8s ease-in-out infinite alternate;
+}

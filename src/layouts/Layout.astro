@@ -1,0 +1,35 @@
+---
+import "../styles/global.css";
+---
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="icon" href="/favicon.ico" />
+        <meta name="generator" content={Astro.generator} />
+        <link
+            rel="preload"
+            href="/videos/background-animation.webm"
+            as="video"
+            type="video/webm"
+            fetchpriority="high"
+        />
+        <title>Astro Basics</title>
+    </head>
+    <body class="">
+        <slot />
+
+        <video
+            id="background-video"
+            autoplay
+            loop
+            muted
+            poster="/images/background-poster.webp"
+        >
+            <source src="/videos/background-animation.webm" type="video/webm" />
+        </video>
+    </body>
+</html>

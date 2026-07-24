@@ -1,0 +1,52 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { Text } from "../components/react/Text";
+import CountdownDisplay from "../components/react/CountdownDisplay";
+import BoxAlarm from "../components/react/BoxAlarm";
+import { Toaster } from "react-hot-toast";
+
+// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
+// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+---
+
+<Layout>
+    <main class="flex flex-col h-screen py-6 justify-between">
+        <div class="flex flex-col pb-4 gap-4">
+            <Text
+                variant="h1"
+                font="gummi"
+                className="text-white text-shadow-black/40 text-shadow-lg text-center"
+            >
+                Felicítalo en su día
+            </Text>
+
+            <Text
+                variant="h4"
+                font="menu"
+                className="text-orange-200 text-shadow-black/40 text-shadow-lg text-center"
+            >
+                Faltan:
+            </Text>
+
+            <CountdownDisplay targetDate="2026-07-28T00:00:00" client:load />
+
+            <Text
+                variant="h4"
+                font="menu"
+                className="text-orange-200 text-shadow-black/40 text-shadow-lg  text-center"
+                >Para el cumpleaños de</Text
+            >
+
+            <Text
+                variant="h2"
+                font="gummi"
+                className="text-white text-shadow-black/40 text-shadow-lg text-center"
+                >Guillermo Paz</Text
+            >
+        </div>
+
+        <BoxAlarm client:load />
+
+        <br />
+    </main>
+</Layout>
