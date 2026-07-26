@@ -19,7 +19,7 @@ export default function BoxAlarm() {
   const handlePushNotify = async () => {
     const result = !isTest
       ? await schedulePushNotification(
-          new Date(2026, 6, 25, 20, 0, 0),
+          new Date(2026, 6, 28, 9, 0, 0),
           VAPID_KEY,
         )
       : await sendInstantTestPush(VAPID_KEY);
