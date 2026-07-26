@@ -4,6 +4,6 @@ self.addEventListener('push', (event) => {
 
   self.registration.showNotification(data.title, {
     body: data.body,
-    icon: '/favicon.svg',
+    icon: '/images/Synthesis.png',
   });
 });

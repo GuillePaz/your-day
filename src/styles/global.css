@@ -6,7 +6,7 @@
   src: url('/fonts/kh/KHData.otf') format('opentype');
   font-weight: normal;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
@@ -14,7 +14,7 @@
   src: url('/fonts/kh/KHGummi.otf') format('opentype');
   font-weight: normal;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 /* La fuente Menu tiene variantes de peso y estilo, las declaramos bajo el mismo nombre */
@@ -23,7 +23,7 @@
   src: url('/fonts/kh/KHMenu.otf') format('opentype');
   font-weight: normal;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
@@ -31,7 +31,7 @@
   src: url('/fonts/kh/KHMenu Bold.otf') format('opentype');
   font-weight: bold;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
@@ -39,7 +39,7 @@
   src: url('/fonts/kh/KHMenu Italic.otf') format('opentype');
   font-weight: normal;
   font-style: italic;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
@@ -47,7 +47,7 @@
   src: url('/fonts/kh/KHMenu BoldItalic.otf') format('opentype');
   font-weight: bold;
   font-style: italic;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
@@ -55,7 +55,7 @@
   src: url('/fonts/kh/KHScala.otf') format('opentype');
   font-weight: normal;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
@@ -63,15 +63,15 @@
   src: url('/fonts/kh/KHTitle.otf') format('opentype');
   font-weight: normal;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @theme {
-  --font-kh-data: "KHData", sans-serif;
-  --font-kh-gummi: "KHGummi", sans-serif;
-  --font-kh-menu: "KHMenu", sans-serif;
-  --font-kh-scala: "KHScala", sans-serif;
-  --font-kh-title: "KHTitle", sans-serif;
+  --font-kh-data: "KHData";
+  --font-kh-gummi: "KHGummi";
+  --font-kh-menu: "KHMenu";
+  --font-kh-scala: "KHScala";
+  --font-kh-title: "KHTitle";
 }
 
 body {

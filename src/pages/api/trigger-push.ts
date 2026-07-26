@@ -7,11 +7,11 @@ export const POST: APIRoute = async ({ request, locals }) => {
   try {
     // Lectura robusta de variables de entorno para Local y Producción
     const env = (locals as any).runtime?.env || {};
-    const publicKey = env.VAPID_PUBLIC_KEY || import.meta.env.VAPID_PUBLIC_KEY || process.env.VAPID_PUBLIC_KEY;
+    const publicKey = env.PUBLIC_VAPID_KEY || import.meta.env.PUBLIC_VAPID_KEY || process.env.PUBLIC_VAPID_KEY;
     const privateKey = env.VAPID_PRIVATE_KEY || import.meta.env.VAPID_PRIVATE_KEY || process.env.VAPID_PRIVATE_KEY;
 
     if (!publicKey || !privateKey) {
-      throw new Error('Faltan las claves VAPID_PUBLIC_KEY o VAPID_PRIVATE_KEY.');
+      throw new Error('Faltan las claves PUBLIC_VAPID_KEY o VAPID_PRIVATE_KEY.');
     }
 
     // Configurar llaves VAPID
@@ -21,20 +21,19 @@ export const POST: APIRoute = async ({ request, locals }) => {
       privateKey
     );
 
-    const { subscription, scheduledAt } = await request.json();
+    const { subscription } = await request.json();
 
     if (!subscription) {
       throw new Error('No se recibió la suscripción en el body.');
     }
 
-    const horaTexto = scheduledAt ? new Date(scheduledAt).toLocaleTimeString() : 'programada';
 
     // Enviar notificación real al navegador
     await webpush.sendNotification(
       subscription,
       JSON.stringify({
-        title: '⏰ ¡Alarma!',
-        body: `Notificación programada para las ${horaTexto}`
+        title: 'Cumpleaños de Guillermo Paz',
+        body: `¡Felicita hoy 28 de Julio a Guillermo Paz en su día!`
       })
     );
 

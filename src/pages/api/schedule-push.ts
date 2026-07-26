@@ -20,21 +20,49 @@ export const POST: APIRoute = async ({ request, locals }) => {
       token,
       baseUrl: "https://qstash-us-east-1.upstash.io" });
 
+
+    const deviceId = subscription.endpoint.slice(-30);
+        const timeId = new Date(scheduledAt).getTime();
+
+
+    const deduplicationId = `push-${deviceId}-${timeId}`;
     // Calculamos los SEGUNDOS exactos hasta la fecha objetivo
     const delayInSeconds = Math.max(0, Math.floor((new Date(scheduledAt).getTime() - Date.now()) / 1000));
 
     const baseUrl = new URL(request.url).origin;
 
-    await qstash.publishJSON({
+    const res = await qstash.publishJSON({
       url: `${baseUrl}/api/trigger-push`,
       body: {
         subscription,
         scheduledAt
       },
       delay: delayInSeconds,
+      deduplicationId: deduplicationId
     });
 
-    return new Response(JSON.stringify({ success: true }), { status: 200 });
+
+    if (res.deduplicated) {
+
+          return new Response(
+            JSON.stringify({
+              success: true,
+              isDuplicate: true,
+              message: 'Esta alerta ya estaba programada.'
+            }),
+            { status: 200 }
+          );
+        }
+
+        // 🟢 Si NO estaba duplicada, se programó con éxito para el futuro
+        return new Response(
+          JSON.stringify({
+            success: true,
+            isDuplicate: false,
+            message: '¡Alerta programada con éxito!'
+          }),
+          { status: 200 }
+        );
   } catch (error: any) {
     // Esto te imprimirá el error real en tu consola si algo falla
     console.error('Error en schedule-push:', error);

@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react';
  */
 export function useCountdown(targetDate: string | Date): string {
   // Inicializamos con el estado en cero mientras se calcula el primer segundo
-  const [timeLeft, setTimeLeft] = useState('00:00:00:00');
+  const [timeLeft, setTimeLeft] = useState('00 : 00 : 00 : 00');
 
   useEffect(() => {
     const targetTime = new Date(targetDate).getTime();
@@ -18,7 +18,7 @@ export function useCountdown(targetDate: string | Date): string {
       const difference = targetTime - now;
 
       if (difference <= 0) {
-        setTimeLeft('00:00:00:00');
+        setTimeLeft('00 : 00 : 00 : 00');
         clearInterval(intervalId);
         return;
       }

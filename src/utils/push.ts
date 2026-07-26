@@ -3,8 +3,11 @@
 /**
  * Convierte la clave VAPID en formato Base64 a un Uint8Array requerido por la Web Push API.
  */
- function urlBase64ToUint8Array(base64String: string): Uint8Array {
-   const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
+function urlBase64ToUint8Array(base64String: string): Uint8Array {
+
+
+
+  const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
    const base64 = (base64String + padding)
      .replace(/-/g, '+')
      .replace(/_/g, '/');
@@ -38,12 +41,18 @@ export async function schedulePushNotification(
 
     // 2. Pedir permisos de notificación al usuario
     const permission = await Notification.requestPermission();
+
+    console.log()
+
     if (permission !== 'granted') {
       throw new Error('El permiso para enviar notificaciones fue denegado.');
     }
 
     // 3. Registrar Service Worker y obtener/crear suscripción Push
-    const reg = await navigator.serviceWorker.register('/sw.js');
+    await navigator.serviceWorker.register('/sw.js');
+
+const reg = await navigator.serviceWorker.ready;
+
     let sub = await reg.pushManager.getSubscription();
 
     if (!sub) {
@@ -71,7 +80,7 @@ export async function schedulePushNotification(
 
     return {
       success: true,
-      message: `¡Alarma programada con éxito para las ${scheduledAt.toLocaleTimeString()}!`
+      message: data.message || '¡Alerta programada con éxito!'
     };
 
   } catch (error: any) {
@@ -80,5 +89,62 @@ export async function schedulePushNotification(
       success: false,
       message: error.message || 'Error desconocido al programar la notificación.'
     };
+  }
+}
+
+
+/**
+ * Envía una notificación Push instantánea de prueba.
+ */
+export async function sendInstantTestPush(vapidPublicKey?: string): Promise<{ success: boolean; message: string }> {
+  try {
+
+    if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
+      throw new Error('Las notificaciones Push no son soportadas en este navegador.');
+    }
+
+    // 2. Pedir permisos de notificación al usuario
+    const permission = await Notification.requestPermission();
+
+    if (permission !== 'granted') {
+      throw new Error('El permiso para enviar notificaciones fue denegado.');
+    }
+
+    // 3. Registrar Service Worker y obtener/crear suscripción Push
+
+
+    // Esperamos a que el Service Worker esté activo
+    await navigator.serviceWorker.register('/sw.js');
+
+const reg = await navigator.serviceWorker.ready;
+
+    let sub = await reg.pushManager.getSubscription();
+
+    if (!sub) {
+          // Usar la clave VAPID pública
+          const key = vapidPublicKey || import.meta.env.VAPID_PUBLIC_KEY;
+
+          if (!key) {
+            throw new Error('Falta la clave VAPID pública para suscribirse.');
+          }
+
+          sub = await reg.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: urlBase64ToUint8Array(key) as unknown as BufferSource,
+          });
+        }
+
+    // Enviar directamente al endpoint de prueba instantáneo
+    const response = await fetch('/api/test-push', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ subscription: sub }),
+    });
+
+    const data = await response.json();
+    return { success: response.ok, message: data.message };
+
+  } catch (error: any) {
+    return { success: false, message: error.message };
   }
 }
